@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Chat">
 <title>Chat</title>
-<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect width="16" height="16" rx="4" fill="%23d96f4b"/><path d="M8 12.6C4.4 10.2 2.8 8 3.6 6.2c.6-1.4 2.2-1.5 3.2-.4L8 7l1.2-1.2c1-1.1 2.6-1 3.2.4.8 1.8-.8 4-4.4 6.4z" fill="%23fffdf7"/></svg>'>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23d96f4b"/><rect x="5.4" y="6.8" width="8.4" height="6" rx="1.8" fill="%237d9b76"/><path d="M6.6 12.2v1.8l2.4-1.8z" fill="%237d9b76"/><rect x="2.2" y="2.4" width="9.6" height="6.4" rx="2" fill="%23fffdf7"/><path d="M3.8 8.2v2.6l3-2.6z" fill="%23fffdf7"/><circle cx="5.2" cy="5.6" r="0.85" fill="%23e3bda3"/><circle cx="7" cy="5.6" r="0.85" fill="%23e3bda3"/><circle cx="8.8" cy="5.6" r="0.85" fill="%23e3bda3"/></svg>'>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <script>try{if(JSON.parse(localStorage.getItem("chat_theme")||'"light"')==="dark"){document.documentElement.dataset.theme="dark";var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content","#161210");}}catch(e){}</script>
@@ -269,7 +269,7 @@ body.printing .wrap,body.printing #toasts{visibility:hidden}
 @media print{
   body>*{display:none!important}
   body::after{
-    content:"printing is turned off in this chat ♡";
+    content:"printing is off in this chat";
     position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
     font-family:var(--hand);font-size:26px;color:#6e6152;background:#f6f1e7;
   }
@@ -506,7 +506,7 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
         </svg>
         <div class="brand-name">chat<em>.</em></div>
       </div>
-      <div class="tag">a cozy little chat for <b>two</b> ♡<br>one account each — so it's always just you two</div>
+      <div class="tag">a cozy little chat for <b>two</b><br>one account each — so it's always just the two of you</div>
 
       <div id="auth-form">
         <div class="tabs">
@@ -609,7 +609,7 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
   <!-- ================= NICKNAMES ================= -->
   <div id="nick-modal" class="hidden">
     <div class="card nick-card">
-      <div class="nick-title">Nicknames ♡</div>
+      <div class="nick-title">Nicknames</div>
       <div class="hint">only show in this room · anyone can change them · clear the box to reset</div>
       <div id="nick-rows"></div>
       <div id="nick-wait" class="hint hidden" style="margin-top:12px">the other person will show up here once they join…</div>
@@ -760,7 +760,7 @@ const LS = {
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
   del(k){ try{ localStorage.removeItem(k); }catch(e){} }
 };
-const ROOM_WORDS = ["nest","nook","den","duo","cozy","warm","hug","pair","loop","cloud","peach","maple","willow","fern","moss","sunny"];
+const ROOM_WORDS = ["nest","nook","den","duo","cozy","warm","pine","pair","loop","cloud","peach","maple","willow","fern","moss","sunny"];
 
 const S = {
   name:"", room:"", color:"#f2a488", senderId:"",
@@ -890,7 +890,7 @@ async function signUp(username, pw){
   const db=dbClient();
   const ex=await db.from("users").select("username").eq("username",username).maybeSingle();
   if(ex.error) throw new Error("couldn't reach the server — is the users table there? (owner: re-run supabase-schema.sql)");
-  if(ex.data) throw new Error("that username is taken — try another ♡");
+  if(ex.data) throw new Error("that username is taken — try another");
   const uid=await uidFor(username);
   const salt=hexBytes(crypto.getRandomValues(new Uint8Array(16)));
   const hash=await derivePw(pw, salt);
@@ -928,7 +928,7 @@ function signOut(){
   S.account=null; S.name=""; S.otherName=null;
   closeSettings();
   showAuth();
-  toast("Logged out","see you soon ♡",{kind:"sys",icon:"out",color:"var(--sage-soft)"});
+  toast("Logged out","Your rooms are saved — sign back in anytime.",{kind:"sys",icon:"out",color:"var(--sage-soft)"});
 }
 function requireAccount(){
   if(S.account && S.account.uid) return S.account;
@@ -1143,7 +1143,7 @@ function toast(title, text, opts){
   el.className = "toast " + (opts.kind||"msg");
   const av = opts.icon
     ? '<svg class="ic"><use href="#i-'+opts.icon+'"/></svg>'
-    : esc(opts.initials||"♡");
+    : esc(opts.initials||"C");
   const timeout = opts.timeout||4500;
   el.innerHTML =
     '<div class="t-avatar" style="background:'+(opts.color||"var(--accent-soft)")+'">'+av+'</div>'+
@@ -1235,7 +1235,7 @@ function bumpUnread(){
     let on=false;
     S.titleTimer=setInterval(()=>{
       on=!on;
-      document.title = on? ("("+S.unread+") new message ♡"): ORIG_TITLE;
+      document.title = on? ("("+S.unread+") new message"): ORIG_TITLE;
     }, 1000);
   }
   setFavicon(S.unread);
@@ -1588,7 +1588,7 @@ async function sendTestPush(){
     const rows=await S.supa.from("push_subscriptions").select("endpoint,keys").eq("room_id",S.room);
     const subs=rows.data||[];
     let sent=0;
-    const payload={title:"Chat ♡ test", body:"push notifications are working!",
+    const payload={title:"Chat · test", body:"push notifications are working!",
       room:S.room, url:location.href.split("?")[0]+"?room="+encodeURIComponent(S.room)};
     for(const s of subs){
       try{ await sendWebPush(s,payload); sent++; }catch(e){ console.warn("test push failed",e); }
@@ -1656,8 +1656,8 @@ const EMPTY_HTML =
   '<path d="M90 70l4 11-13-11z" fill="#e5ecdf"/>'+
   '<circle cx="24" cy="26" r="3.2" fill="#e3bda3"/><circle cx="37" cy="26" r="3.2" fill="#e3bda3"/><circle cx="50" cy="26" r="3.2" fill="#e3bda3"/>'+
   '<circle cx="60" cy="50" r="3.2" fill="#b7c8ae"/><circle cx="73" cy="50" r="3.2" fill="#b7c8ae"/><circle cx="86" cy="50" r="3.2" fill="#b7c8ae"/>'+
-  '<g transform="translate(47,30)"><path d="M8 14C4.4 11.6 2.8 9.3 3.6 7.6c.6-1.4 2.2-1.5 3.2-.4L8 8.4l1.2-1.2c1-1.1 2.6-1 3.2.4.8 1.7-.8 4-4.4 6.4z" fill="#d96f4b"/></g>'+
-  '</svg><div class="empty-title">No messages yet</div><div class="hint">say hi to start your cozy thread ♡</div>';
+  '<g transform="translate(49,32) scale(0.55)"><path d="M1 7.5 L15 1 L10.5 14 L8 9.5 L1 7.5 Z" fill="#d96f4b"/></g>'+
+  '</svg><div class="empty-title">No messages yet</div><div class="hint">say hi and get the thread going</div>';
 function renderEmpty(){
   const el=msgsEl();
   const d=$("#empty-state");
@@ -1874,7 +1874,7 @@ function renderPresence(){
   const pill=$("#room-pill");
   pill.classList.toggle("online", others.length>0);
   const other=knownOther();
-  $('#online-txt').textContent = others.length>0? ("· both here ♡"+(other?" "+displayName(other.name):"")) : (S.otherName? ("· waiting for "+displayName(S.otherName)+"…") : "· just you for now…");
+  $('#online-txt').textContent = others.length>0? ("· both here"+(other?" "+displayName(other.name):"")) : (S.otherName? ("· waiting for "+displayName(S.otherName)+"…") : "· just you for now…");
 }
 function startPing(){
   stopPing();
@@ -1898,7 +1898,7 @@ function shieldToast(msg){
   const now=Date.now();
   if(now-shieldLast<4000) return;
   shieldLast=now;
-  toast("Nice try ♡", msg, {kind:"sys",icon:"eye",color:"var(--sage-soft)",timeout:3600});
+  toast("Heads up", msg, {kind:"sys",icon:"eye",color:"var(--sage-soft)",timeout:3600});
 }
 function isShotKey(e){
   const k=String(e.key||"").toLowerCase();
@@ -2145,7 +2145,7 @@ async function saveNickModal(){
     if(val!==old){ changed++; await sendNickEvent(real, val); }
   }
   closeNickModal();
-  if(changed) toast("Nicknames updated ♡","Everyone in this room sees them.",{kind:"sys",icon:"edit",color:"var(--sage-soft)"});
+  if(changed) toast("Nicknames updated","Everyone in this room sees them.",{kind:"sys",icon:"edit",color:"var(--sage-soft)"});
 }
 
 /* ================================================================
@@ -2535,9 +2535,9 @@ function startChat(name, room, isNew){
   if(isNew){
     const link=location.href.split("?")[0]+"?room="+encodeURIComponent(room);
     copyText(link);
-    toast("Room "+room+" created ♡","Invite link copied — send it to the other person!",{kind:"sys",icon:"star",color:"var(--sage-soft)"});
+    toast("Room "+room+" is ready","Invite link copied — send it to your person.",{kind:"sys",icon:"star",color:"var(--sage-soft)"});
   } else {
-    toast("Welcome in ♡","Room "+room+" — say hi!",{kind:"sys",initials:"♡",color:"var(--accent-soft)"});
+    toast("You're in","Room "+room+" — say hi!",{kind:"sys",initials:"C",color:"var(--accent-soft)"});
   }
 }
 
@@ -2583,7 +2583,7 @@ function wireWelcome(){
   $("#btn-auth").onclick=async()=>{
     const u=normUser($("#a-user").value);
     const p=$("#a-pass").value;
-    if(u.length<3){ aerr.textContent="username needs at least 3 letters or numbers ♡"; return; }
+    if(u.length<3){ aerr.textContent="username needs at least 3 letters or numbers"; return; }
     if(p.length<6){ aerr.textContent="password needs at least 6 characters"; return; }
     if(authTab==="signup" && p!==$("#a-pass2").value){ aerr.textContent="those passwords don't match"; return; }
     $("#btn-auth").disabled=true; aerr.textContent="one sec…";
@@ -2592,7 +2592,7 @@ function wireWelcome(){
       $("#a-pass").value=""; $("#a-pass2").value="";
       enterAccount(acc);
       aerr.textContent="";
-      toast("Welcome, "+acc.username+" ♡","Create a room or jump back into a recent one.",{kind:"sys",icon:"user",color:"var(--sage-soft)"});
+      toast("Hey "+acc.username,"Make a room or jump back into a recent one.",{kind:"sys",icon:"user",color:"var(--sage-soft)"});
     }catch(e){
       aerr.textContent=(e&&e.message)||"couldn't do that — try again";
     }finally{ $("#btn-auth").disabled=false; }
@@ -2802,7 +2802,7 @@ function wireSettings(){
   $("#set-popups").onchange=e=>{ S.popups=e.target.checked; LS.set("chat_popups",S.popups); };
   $("#set-sound").onchange=e=>{ S.sound=e.target.checked; LS.set("chat_sound",S.sound); if(S.sound) sndSend(); };
   $("#set-dark").onchange=e=>applyTheme(e.target.checked);
-  $("#set-shield").onchange=e=>{ LS.set("chat_shield",e.target.checked); if(e.target.checked) toast("Shield on ♡","Screenshots, print and photo-saving are blocked as far as a browser allows.",{kind:"sys",icon:"eye",color:"var(--sage-soft)"}); };
+  $("#set-shield").onchange=e=>{ LS.set("chat_shield",e.target.checked); if(e.target.checked) toast("Shield on","Screenshots, print and photo-saving are blocked as far as a browser allows.",{kind:"sys",icon:"eye",color:"var(--sage-soft)"}); };
   $("#btn-push-test").onclick=()=>sendTestPush();
   $("#btn-push-fix").onclick=()=>repairPush();
   $("#btn-signout").onclick=()=>signOut();
@@ -2844,5 +2844,5 @@ setInterval(()=>{ if(!$("#chat-screen").classList.contains("hidden")) renderSeen
   if(sess && sess.username && sess.uid) enterAccount(sess);
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a471d8261fbf3307',t:'MTc5MTQyNzg5Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a47277950dc93307',t:'MTc5MTQzNDQyMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
