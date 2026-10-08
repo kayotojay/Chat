@@ -252,14 +252,14 @@ code{background:var(--paper2);border:1px solid var(--line);padding:1px 7px;borde
 .toast.err .t-bar{background:var(--rose)}
 @keyframes tbar{from{width:100%}to{width:0}}
 
-/* ---------- emoji popup ---------- */
-#emoji-pop{
-  position:absolute;bottom:96px;left:24px;z-index:50;background:var(--paper);
-  border:1.5px solid var(--line);border-radius:20px;box-shadow:var(--shadow);
-  padding:12px;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;max-width:min(340px,calc(100vw - 48px));
-}
-#emoji-pop button{background:none;border:none;font-size:22px;padding:6px;border-radius:12px}
-#emoji-pop button:hover{background:var(--accent-soft)}
+
+/* ---------- unread badge + push diagnostics ---------- */
+.icon-btn{position:relative}
+#rooms-badge{margin-left:1px}
+.push-diag{margin-top:9px;display:flex;flex-direction:column;gap:3px}
+.pd{font-size:12px;color:var(--muted);line-height:1.5}
+.pd.good{color:var(--sage-deep)}
+.pd.bad{color:var(--rose)}
 
 /* ---------- screenshot shield (best effort, not a vault) ---------- */
 .chat-img{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
@@ -295,12 +295,6 @@ body.printing .wrap,body.printing #toasts{visibility:hidden}
 .msg-row:hover .msg-act{opacity:1}
 .msg-act:hover{border-color:var(--accent);color:var(--accent-deep)}
 @media (hover:none){.msg-act{opacity:.5}}
-.reactions{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;padding:0 4px}
-.me .reactions{justify-content:flex-end}
-.react-pill{display:inline-flex;align-items:center;gap:4px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:2px 8px;font-size:12px;cursor:pointer;color:var(--ink);transition:transform .12s,border-color .12s}
-.react-pill:hover{transform:translateY(-1px);border-color:var(--accent)}
-.react-pill.mine{background:var(--accent-soft);border-color:var(--accent);font-weight:800}
-.react-pill.react-add{color:var(--muted);border-style:dashed;font-weight:800;padding:2px 9px}
 .quote{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:8px;padding:5px 10px;margin-bottom:7px;font-size:12.5px;line-height:1.4;cursor:pointer;max-width:100%}
 .me .quote{background:rgba(0,0,0,.13);border-left-color:rgba(255,255,255,.7)}
 .quote b{font-weight:800;display:block}
@@ -329,18 +323,6 @@ body.printing .wrap,body.printing #toasts{visibility:hidden}
 .rb-x{background:none;border:none;color:var(--muted);display:flex;padding:6px;border-radius:10px;flex:none}
 .rb-x:hover{color:var(--rose);background:var(--rose-soft)}
 
-/* ---------- emoji panel ---------- */
-#emoji-pop{position:absolute;bottom:78px;left:16px;z-index:70;background:var(--paper);border:1.5px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:10px;width:min(330px,calc(100vw - 40px));display:block;max-width:none;grid-template-columns:none;gap:0}
-#emoji-pop input{width:100%;background:var(--card);border:1.5px solid var(--line);color:var(--ink);border-radius:12px;padding:8px 12px;font-size:13.5px;outline:none}
-#emoji-pop input:focus{border-color:var(--accent)}
-.ep-tabs{display:flex;gap:4px;margin-top:8px;overflow-x:auto;padding-bottom:2px}
-.ep-tab{background:var(--card);border:1.5px solid var(--line);border-radius:10px;font-size:16px;padding:4px 7px;flex:none}
-.ep-tab.active{border-color:var(--accent);background:var(--accent-soft)}
-.ep-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;max-height:196px;overflow-y:auto;margin-top:8px}
-.ep-grid button{background:none;border:none;font-size:21px;padding:5px;border-radius:10px;line-height:1.2}
-.ep-grid button:hover{background:var(--accent-soft)}
-.ep-empty{grid-column:1/-1;color:var(--muted);font-size:13px;padding:10px;text-align:center}
-#emoji-pop button{font-size:21px}
 
 /* ---------- message action menu ---------- */
 #msg-menu{position:fixed;z-index:92;background:var(--paper);border:1.5px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:8px;width:224px}
@@ -434,10 +416,6 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
       <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
     </symbol>
-    <symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-      <line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
-    </symbol>
     <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
       <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
@@ -454,9 +432,6 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
     </symbol>
     <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-    </symbol>
-    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
     </symbol>
     <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
@@ -566,7 +541,11 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
           <button id="tab-join"><svg class="ic"><use href="#i-key"/></svg> Join room</button>
         </div>
         <div id="panel-create">
-          <div class="hint" style="margin-bottom:14px">We'll make a fresh private room for you two — you'll get a code + invite link to share.</div>
+          <div class="hint" style="margin-bottom:14px">A private room for you two — you'll get a code + invite link to share.</div>
+          <div class="field">
+            <label>Room name <span style="color:var(--muted);font-weight:500">(optional — pick your own)</span></label>
+            <input type="text" id="w-room-new" maxlength="24" placeholder="e.g. us-forever (blank = random code)" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
           <div class="field">
             <label>Room password <span style="color:var(--muted);font-weight:500">(optional — locks the room)</span></label>
             <input type="password" id="w-create-pass" maxlength="64" placeholder="leave empty for an open room" autocomplete="new-password">
@@ -598,7 +577,7 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
   <!-- ================= CHAT ================= -->
   <div id="chat-screen" class="hidden">
     <div class="card topbar">
-      <button class="icon-btn" id="btn-menu" title="Back to rooms"><svg class="ic"><use href="#i-back"/></svg><span class="lbl">Rooms</span></button>
+      <button class="icon-btn" id="btn-menu" title="Back to rooms"><svg class="ic"><use href="#i-back"/></svg><span class="lbl">Rooms</span><span class="unread-badge hidden" id="rooms-badge"></span></button>
       <div class="room-pill" id="room-pill" title="Copy room code"><span class="presence"></span><span id="room-name">—</span> <small id="online-txt"></small></div>
       <span class="owner-badge hidden" id="owner-badge"><svg class="ic"><use href="#i-crown"/></svg> your room</span>
       <div class="spacer"></div>
@@ -619,7 +598,6 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
       <div id="typing-bar"></div>
       <div id="reply-bar" class="hidden"></div>
       <div class="composer">
-        <button class="round-btn" id="btn-emoji" title="Emoji"><svg class="ic"><use href="#i-smile"/></svg></button>
         <button class="round-btn" id="btn-img" title="Send image"><svg class="ic"><use href="#i-image"/></svg></button>
         <input type="file" id="file-img" accept="image/*" class="hidden">
         <input type="text" id="in-msg" placeholder="Say something nice…" maxlength="2000" autocomplete="off">
@@ -654,6 +632,11 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
           <div class="set-name">Push notifications</div>
           <div class="set-desc">Notify this device for new messages, even with the tab closed.</div>
           <div class="set-status" id="push-status"></div>
+          <div class="push-diag hidden" id="push-diag"></div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="t-btn" id="btn-push-test">Send test push</button>
+            <button class="t-btn" id="btn-push-fix">Repair</button>
+          </div>
         </div>
         <label class="switch"><input type="checkbox" id="set-push"><span></span></label>
       </div>
@@ -708,11 +691,6 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
     </div>
   </div>
 
-  <div id="emoji-pop" class="hidden">
-    <input type="text" id="ep-search" placeholder="search emoji…" autocomplete="off" spellcheck="false">
-    <div class="ep-tabs" id="ep-tabs"></div>
-    <div class="ep-grid" id="ep-grid"></div>
-  </div>
 </div>
 
 <!-- lightbox (photo viewer) -->
@@ -768,6 +746,10 @@ const VAPID_CONTACT     = SWCFG.VAPID_CONTACT || "mailto:you@example.com";
 /* Room auto-lock: password rooms re-lock after this many minutes away
    (or in a fresh tab) — checked on entry, never kicks you mid-chat. */
 const ROOM_LOCK_MINUTES = (typeof SWCFG.ROOM_LOCK_MINUTES === "number") ? SWCFG.ROOM_LOCK_MINUTES : 30;
+/* Room passwords are remembered on this device once entered. Set
+   ROOM_RELOCK: true in sw.js if you want it to re-ask after
+   ROOM_LOCK_MINUTES away / in a fresh tab. */
+const ROOM_RELOCK = SWCFG.ROOM_RELOCK === true;
 
 /* ================================================================
    state (nothing to edit below this line)
@@ -777,44 +759,6 @@ const LS = {
   get(k, d){ try{ const v = localStorage.getItem(k); return v==null? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
   del(k){ try{ localStorage.removeItem(k); }catch(e){} }
-};
-const EMOJI_CATS = [
-  {id:"recent", icon:"🕐", name:"Recent", list:[]},
-  {id:"smile", icon:"😀", name:"Smileys", list:["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤗","🤭","🤫","🤔","🤐","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒","🤕","🤢","🤮","🥵","🥶","😵","🤯","🤠","🥳","🥸","😎","🤓","🧐","😕","😟","🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","👻","👽","🤖","💩","😺","😹"]},
-  {id:"love", icon:"❤️", name:"Love", list:["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟","♥️","🫶","💏","💌","💋","🌹","🌺","🌸","💐","🥀","💍","👑","✨","⭐","🌟","💫","🎀","🎁"]},
-  {id:"gest", icon:"👍", name:"Gestures", list:["👍","👎","👌","🤌","✌️","🤞","🤟","🤘","🤙","👈","👉","👆","👇","☝️","👋","🤚","🖐️","✋","🖖","👏","🙌","🤲","🤝","🙏","✍️","💅","🤳","💪","🦾","🦵","👀","👁️","🧠","🫀","👄","👅","🦶","👣","🫰","🫵"]},
-  {id:"animal", icon:"🐻", name:"Animals", list:["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🙈","🙉","🙊","🐔","🐧","🐦","🐤","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🪲","🐛","🦋","🐌","🐞","🐢","🦖","🐅","🐙","🦑","🦐","🐠","🐟","🐬","🦈","🐊","🐂","🦓","🦒","🐪","🐿","🦔","🐇","🐈","🐕"]},
-  {id:"food", icon:"🍕", name:"Food", list:["🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🥑","🍆","🥦","🌽","🥕","🥔","🍞","🥐","🥖","🧀","🥚","🍳","🥞","🧇","🥓","🥨","🍔","🍟","🍕","🌭","🌮","🥪","🌯","🋫","🥙","🥗","🥘","🍲","🍜","🍛","🍱","🍙","🍚","🍢","🍡","🍣","🍤","🍦","🍰","🧁","🥧","🍫","🍬","🍭","🍮","🍯","🍪","☕","🍵","🧋","🥤","🍺","🍷","🥂","🍾"]},
-  {id:"act", icon:"⚽", name:"Activity", list:["⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥊","🥋","⛳","🏹","🎣","🤿","🎽","🛹","🛼","🎿","⛷️","🏂","🏄","🚴","🏆","🥇","🥈","🥉","🎯","🎮","🕹️","🎲","🧩","🎰","🎳","🎨","🎬","🎤","🎧","🎼","🎹","🥁","🎸","🎺","🎻","🪄","🎊","🎉","🎈","🎁","🎏","🎐","🪅"]},
-  {id:"obj", icon:"💡", name:"Objects", list:["⌚","📱","💻","⌨️","🖥️","🖨️","🖱️","💽","💾","💿","📀","📷","📸","📹","🎥","📞","☎️","📟","📠","📺","📻","🎙️","⏱️","🕰️","🔋","🔌","💡","🔦","🕯️","🪔","🧯","🛒","💰","💳","💎","⚖️","🔧","🔨","⚙️","🧲","🔫","💊","🩹","🚬","🗿","🛏️","🚪","🧸","🖼️","🛍️","🎒","👓","🕶️","🎗","👠","👢","🎩","💼","📚","📖","📝","✏️","🖊️","📌","📎","📏","📐","✂️","🗑️","🔒","🔑","📦","📬","🗺️","🧭"]},
-  {id:"sym", icon:"✨", name:"Symbols", list:["❤️","✅","❌","❎","➕","➖","➗","❓","❔","❗","💯","🔥","✨","⭐","🌟","💫","💥","💤","💨","🕐","🌙","☀️","⛅","☁️","🌈","⚡","❄️","☃️","💧","🌊","🍀","🌵","🌴","🌳","🌲","🌱","🌷","🌻","🌼","🍂","🍃","🚗","🚕","🚌","🏎","🚓","🚑","🚒","🚚","🚲","🛴","✈️","🚀","🛸","🚁","⛵","🚢","🚂","🗽","🗼","🏰","🎡","🎢","🌍","🌎","🌏","🪐","🌌"]}
-];
-const EMOJI_KW = {
-  heart:["❤️","💕","💖","💗","💞","💔","🧡","💛","💚","💙","💜"],
-  love:["❤️","💕","💌","🥰","😍","💖"],
-  laugh:["😂","🤣","😆","😹","😛"],
-  cry:["😭","😢","😥","🥺","😦"],
-  sad:["😔","😞","😢","🙁","😭"],
-  happy:["😀","😃","😄","😊","🤩","🥳"],
-  angry:["😠","😡","🤬","😤","🖤"],
-  fire:["🔥","💥","🚨"],
-  ok:["👌","👍","🖐️","✅"],
-  yes:["👍","✅","🙌","👏"],
-  no:["👎","❌","🙅","🚫"],
-  food:["🍕","🍔","🥙","🍲","🍰"],
-  pizza:["🍕"], cake:["🍰","🧁"],
-  coffee:["☕","🍵"], beer:["🍺"], wine:["🍷"],
-  cat:["🐱","😹","🐈"], dog:["🐶","🐕"],
-  sun:["☀️","🌞","🌤"], moon:["🌙","🌚","🌛"],
-  star:["⭐","🌟","💫","✨"],
-  flower:["🌸","🌹","🌺","💐","🌷"],
-  music:["🎵","🎶","🎹","🎧"],
-  money:["💰","💵","🤑"],
-  car:["🚗","🚘","🚙"],
-  gift:["🎁","🎀","💝"],
-  cool:["😎","🥶","🔥"],
-  sleep:["😴","💤","🛌"],
-  party:["🎉","🎊","🥳","🥂"]
 };
 const ROOM_WORDS = ["nest","nook","den","duo","cozy","warm","hug","pair","loop","cloud","peach","maple","willow","fern","moss","sunny"];
 
@@ -902,6 +846,23 @@ function fmtWhen(iso){
   const d=new Date(iso), now=new Date();
   if(d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth()&&d.getDate()===now.getDate()) return fmtTime(iso);
   return dayLabel(iso);
+}
+
+/* Every way into a room (recents, invite link, create, join) runs through
+   here, so a third account can never slip in — and the database trigger
+   created by supabase-schema.sql enforces it server-side too. */
+async function enforceRoomSeat(room){
+  try{
+    if(!S.account) return;
+    const res=await claimRoomSlot(room,S.account.uid,S.account.username);
+    if(!res.ok){
+      toast("This room is full","#"+room+" is just for two ("+res.a+" & "+res.b+").",
+        {kind:"err",icon:"alert",color:"var(--rose-soft)",timeout:9000});
+      leaveRoom();
+      return;
+    }
+    if(res.other){ S.otherName=res.other; renderPresence(); }
+  }catch(e){ /* offline — the seat check runs again next time */ }
 }
 
 /* ================================================================
@@ -1014,16 +975,23 @@ async function claimRoomSlot(room, uid, username){
 /* ================================================================
    ROOM PASSWORDS + auto-lock
 ================================================================ */
-function lockKey(room){ return "chat_unlock_"+room; }
+function lockKey(room){ return "chat_unlock_"+(S.account? S.account.uid : "anon")+"_"+room; }
+/* Once you type a room password correctly it's remembered on this device
+   for your account — you don't type it again. Opt in to re-locking with
+   ROOM_RELOCK: true in sw.js. */
 function isUnlocked(room){
-  try{ if(sessionStorage.getItem(lockKey(room))!=="1") return false; }
-  catch(e){ return false; }
-  const u=LS.get(lockKey(room),null);
-  return !!(u&&u.until&&Date.now()<u.until);
+  if(LS.get(lockKey(room),null)!==true) return false;
+  if(!ROOM_RELOCK || ROOM_LOCK_MINUTES<=0) return true;
+  try{ if(sessionStorage.getItem(lockKey(room)+"_s")!=="1") sessionStorage.setItem(lockKey(room)+"_s","1"); }catch(e){}
+  const w=LS.get(lockKey(room)+"_w",null);
+  return !!(w && w.until && Date.now()<w.until);
 }
 function setUnlocked(room){
-  try{ sessionStorage.setItem(lockKey(room),"1"); }catch(e){}
-  LS.set(lockKey(room),{until:Date.now()+ROOM_LOCK_MINUTES*60*1000});
+  LS.set(lockKey(room),true);
+  if(ROOM_RELOCK && ROOM_LOCK_MINUTES>0){
+    try{ sessionStorage.setItem(lockKey(room)+"_s","1"); }catch(e){}
+    LS.set(lockKey(room)+"_w",{until:Date.now()+ROOM_LOCK_MINUTES*60*1000});
+  }
 }
 async function hashPw(room,pw){
   const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(room+"::"+pw));
@@ -1033,12 +1001,18 @@ function dbClient(){
   if(S.supa) return S.supa;
   return window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 }
-async function getRoomLock(room){
+async function getRoomRow(room){
   try{
-    const r=await dbClient().from("rooms").select("pw_hash").eq("room_id",room).maybeSingle();
-    if(r.error||!r.data||!r.data.pw_hash) return null;
-    return r.data.pw_hash;
+    const r=await dbClient().from("rooms")
+      .select("room_id,pw_hash,created_by,created_by_name,member_b,member_b_name")
+      .eq("room_id",room).maybeSingle();
+    if(r.error||!r.data) return null;
+    return r.data;
   }catch(e){ return null; }
+}
+async function getRoomLock(room){
+  const r=await getRoomRow(room);
+  return (r && r.pw_hash) ? r.pw_hash : null;
 }
 
 /* ================================================================
@@ -1077,6 +1051,7 @@ function updateRecent(room,name,patch){
 function showRecents(){
   const wrap=$("#recent-wrap"), list=$("#recent-list");
   const recents=getRecents();
+  updateUnreadBadge();
   if(!recents.length){ wrap.classList.add("hidden"); list.innerHTML=""; return; }
   wrap.classList.remove("hidden");
   list.innerHTML="";
@@ -1236,6 +1211,24 @@ function browserNotify(title, body){
     n.onclick = ()=>{ window.focus(); n.close(); };
   }catch(e){}
 }
+/* ---------- unread counts: Rooms button + app-icon badge ---------- */
+function totalUnread(){
+  try{ return getRecents().reduce((a,e)=>a+(e.unread||0),0); }catch(e){ return 0; }
+}
+function setAppBadge(n){
+  try{
+    if(navigator.setAppBadge){ if(n>0) navigator.setAppBadge(n); else navigator.clearAppBadge(); }
+  }catch(e){}
+}
+function updateUnreadBadge(){
+  const n=totalUnread();
+  const b=$("#rooms-badge");
+  if(b){
+    b.textContent = n>9? "9+" : String(n);
+    b.classList.toggle("hidden", n<=0 || !S.room);
+  }
+  setAppBadge(n);
+}
 function bumpUnread(){
   S.unread++;
   if(!S.titleTimer && document.hidden){
@@ -1247,11 +1240,13 @@ function bumpUnread(){
   }
   setFavicon(S.unread);
   scrollPill();
+  updateUnreadBadge();
 }
 function clearUnread(){
   S.unread=0; document.title=ORIG_TITLE;
   if(S.titleTimer){ clearInterval(S.titleTimer); S.titleTimer=null; }
   setFavicon(0);
+  updateUnreadBadge();
 }
 function setFavicon(count){
   try{
@@ -1514,27 +1509,115 @@ async function ensurePushForRoom(){
   }
 }
 async function refreshPushStatus(){
-  const st=$("#push-status"); if(!st) return;
+  const st=$("#push-status"), dg=$("#push-diag"); if(!st) return;
   const on=LS.get("chat_push",false);
-  if(!("serviceWorker" in navigator)||!("PushManager" in window)){ st.textContent="not supported in this browser"; return; }
-  if(location.protocol!=="https:"&&location.hostname!=="localhost"&&location.hostname!=="127.0.0.1"){ st.textContent="needs the site hosted on https (localhost works too)"; return; }
+  const lines=[];
+  const add=(good,txt)=>lines.push('<div class="pd '+(good?"good":"bad")+'">'+(good?"✓":"✗")+" "+esc(txt)+"</div>");
+
+  const supported = ("serviceWorker" in navigator) && ("PushManager" in window) && ("Notification" in window);
+  add(supported, supported? "browser supports push" : "this browser doesn't support push (Chrome/Edge/Firefox, or Safari 16.4+ installed as an app)");
+
+  const host=location.hostname;
+  const secure = location.protocol==="https:" || host==="localhost" || host==="127.0.0.1";
+  add(secure, secure? "hosted securely ("+location.protocol.replace(":","")+")" : "push needs https (or localhost) — it will never work on http:// or file://");
+
+  let swOK=false;
   try{
-    const probe=await fetch("sw.js",{method:"HEAD"});
-    if(probe.status===404){ st.textContent="sw.js is missing — put ALL the app files in one folder next to index.html"; return; }
-  }catch(e){/* file:// or offline — the toggle will say more */}
-  if(Notification.permission==="denied"){ st.textContent="blocked in this browser — allow notifications in site settings"; return; }
-  st.textContent="checking…";
-  const keys=await ensureVapid().catch(()=>null);
-  if(!st.isConnected) return;
-  if(!keys){ st.textContent="couldn't reach the server — retry in a sec"; return; }
-  st.textContent=on? ("on · this device will notify for #"+S.room+" even with the tab closed") : "off · turn on to get notified even with the tab closed";
+    const reg=await navigator.serviceWorker.getRegistration();
+    swOK=!!reg;
+    if(!swOK){ const p=await fetch("sw.js",{method:"HEAD"}); swOK=p.status!==404; }
+  }catch(e){}
+  add(swOK, swOK? "sw.js found + registered" : "sw.js not found — keep sw.js in the SAME folder as index.html");
+
+  const perm=("Notification" in window)? Notification.permission : "unsupported";
+  add(perm==="granted", perm==="granted"? "notification permission granted" : ("permission is \""+perm+"\" — flip the toggle to allow, or unblock it in site settings"));
+
+  let sub=null;
+  try{
+    const reg=await navigator.serviceWorker.getRegistration();
+    if(reg) sub=await reg.pushManager.getSubscription();
+  }catch(e){}
+  add(!!sub, sub? "this device has a push subscription" : "no subscription yet — turn the toggle on");
+
+  let inDb=null;
+  if(S.supa && S.room){
+    try{
+      const r=await S.supa.from("push_subscriptions").select("id").eq("room_id",S.room);
+      inDb=(r.data||[]).length;
+    }catch(e){}
+  }
+  add(inDb!==null && inDb>0, inDb? (inDb+" device"+((inDb>1)?"s":"")+" saved for this room — they'll be notified") : "this device isn't saved for this room — toggle push off and on");
+
+  let vapidOK=false, vapidErr="";
+  try{ const v=await ensureVapid(); vapidOK=!!(v&&v.public); }
+  catch(e){ vapidErr=String((e&&e.message)||e); }
+  add(vapidOK, vapidOK? "push keys ready (made automatically)" : ("push keys unavailable"+(vapidErr? " — "+vapidErr+". Re-run supabase-schema.sql.":"")));
+
+  if(!supported||!swOK){
+    st.textContent="not set up yet — see the checklist below";
+  } else if(perm!=="granted"){
+    st.textContent="blocked — allow notifications, then turn the toggle on";
+  } else if(!sub){
+    st.textContent="off · turn on to get notified even with the tab closed";
+  } else {
+    st.textContent = on
+      ? ("on · this device will notify for #"+S.room+" even with the tab closed")
+      : "off · turn on to get notified even with the tab closed";
+  }
+  if(dg){ dg.innerHTML=lines.join(""); dg.classList.remove("hidden"); }
+}
+/* Sends a push to every device in this room — including this one — so you
+   can see in one tap whether push actually works end to end. */
+async function sendTestPush(){
+  if(!("serviceWorker" in navigator)||!("PushManager" in window)){
+    toast("Not supported","This browser can't do push.",{kind:"err",icon:"alert",color:"var(--rose-soft)"});
+    return;
+  }
+  try{
+    const reg=await navigator.serviceWorker.getRegistration();
+    const sub=reg? await reg.pushManager.getSubscription():null;
+    if(!sub){
+      toast("Turn push on first","No subscription on this device yet.",{kind:"err",icon:"alert",color:"var(--rose-soft)"});
+      return;
+    }
+    if(("Notification" in window) && Notification.permission!=="granted"){
+      toast("Permission needed","Allow notifications for this site, then retry.",{kind:"err",icon:"alert",color:"var(--rose-soft)"});
+      return;
+    }
+    const v=await ensureVapid();
+    const rows=await S.supa.from("push_subscriptions").select("endpoint,keys").eq("room_id",S.room);
+    const subs=rows.data||[];
+    let sent=0;
+    const payload={title:"Chat ♡ test", body:"push notifications are working!",
+      room:S.room, url:location.href.split("?")[0]+"?room="+encodeURIComponent(S.room)};
+    for(const s of subs){
+      try{ await sendWebPush(s,payload); sent++; }catch(e){ console.warn("test push failed",e); }
+    }
+    if(sent) toast("Test sent","Sent to "+sent+" device"+((sent>1)?"s":"")+" in this room — you should see a notification in a second or two.",{kind:"sys",icon:"bell",color:"var(--sage-soft)",timeout:6000});
+    else toast("Nothing to send","No saved devices for this room — toggle push off and on, then retry.",{kind:"err",icon:"alert",color:"var(--rose-soft)"});
+  }catch(e){
+    toast("Test failed",String((e&&e.message)||e),{kind:"err",icon:"alert",color:"var(--rose-soft)",timeout:8000});
+  }
+}
+/* Re-registers the service worker and takes a fresh subscription. */
+async function repairPush(){
+  try{
+    LS.set("chat_push",true);
+    const box=$("#set-push"); if(box) box.checked=true;
+    const regs=await navigator.serviceWorker.getRegistrations();
+    for(const r of regs){ try{ await r.unregister(); }catch(e){} }
+  }catch(e){}
+  await setPush(true);
+  await ensurePushForRoom();
+  await refreshPushStatus();
 }
 
 /* ---------- PWA install ---------- */
 let deferredPrompt=null;
 window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; updateInstallBtn(); });
 function isInstalled(){
-  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true;
+  try{ if(window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true; }catch(e){}
+  return window.navigator.standalone===true;
 }
 function updateInstallBtn(){
   const b=$("#btn-install"); if(!b) return;
@@ -1638,18 +1721,6 @@ function quoteHTML(m){
   const txt=orig? (orig.type==="image"? "📷 photo" : String(orig.content||"").slice(0,80)) : "message";
   return '<div class="quote" data-goto="'+esc(m.reply_to)+'"><b>'+esc(who)+'</b><span class="qtxt">'+esc(txt)+'</span></div>';
 }
-function reactionsOf(m){ return (m.reactions && typeof m.reactions==="object") ? m.reactions : {}; }
-function reactionsHTML(m){
-  const r=reactionsOf(m);
-  const keys=Object.keys(r).filter(k=>(r[k]||[]).length);
-  let h='<div class="reactions">';
-  keys.forEach(k=>{
-    const mine=(r[k]||[]).indexOf(S.senderId)>=0;
-    h+='<button class="react-pill'+(mine?" mine":"")+'" data-emo="'+esc(k)+'">'+esc(k)+' <span>'+(r[k].length)+'</span></button>';
-  });
-  h+='<button class="react-pill react-add" title="Add reaction">＋</button></div>';
-  return h;
-}
 function rowHTML(m){
   const mine=isMine(m);
   const shown=displayName(m.sender_name);
@@ -1657,23 +1728,18 @@ function rowHTML(m){
     '<div style="min-width:0">'+
       '<div class="bubble-line">'+
         '<div class="bubble">'+quoteHTML(m)+(m.type==="image"? imgHTML(m) : linkify(m.content).replace(/\n/g,"<br>"))+'</div>'+
-        '<button class="msg-act" title="Reply · react · more"><svg class="ic"><use href="#i-dots"/></svg></button>'+
+        '<button class="msg-act" title="Reply · copy · more"><svg class="ic"><use href="#i-dots"/></svg></button>'+
       '</div>'+
-      reactionsHTML(m)+
       '<div class="meta"><span class="who">'+esc(shown)+'</span><span>'+fmtTime(m.created_at)+'</span>'+ticksFor(m)+'</div>'+
     '</div>';
 }
 function wireRow(row,m){
   const act=row.querySelector(".msg-act");
   if(act) act.onclick=(e)=>{
-    e.stopPropagation(); closeEmojiPanel();
+    e.stopPropagation();
     const r=act.getBoundingClientRect();
     openMsgMenu(m, r.left, r.bottom+6);
   };
-  row.addEventListener("dblclick",(e)=>{
-    if(e.target.closest(".chat-img,.vo,.react-pill,.quote,a")) return;
-    toggleReaction(m,"❤️");
-  });
   row.addEventListener("contextmenu",(e)=>{
     if(e.target.closest(".chat-img,.vo")) return;
     e.preventDefault();
@@ -1683,10 +1749,6 @@ function wireRow(row,m){
   if(vo) vo.onclick=(e)=>{ e.stopPropagation(); revealPhoto(m); };
   const q=row.querySelector("[data-goto]");
   if(q) q.onclick=(e)=>{ e.stopPropagation(); jumpTo(q.dataset.goto); };
-  row.querySelectorAll(".react-pill").forEach(b=>{
-    if(b.classList.contains("react-add")) b.onclick=(e)=>{ e.stopPropagation(); const r=b.getBoundingClientRect(); openEmojiPanel(x=>toggleReaction(m,x), r.left, r.bottom+8); };
-    else b.onclick=(e)=>{ e.stopPropagation(); toggleReaction(m, b.dataset.emo); };
-  });
   const img=row.querySelector(".chat-img");
   if(img) img.onclick=(e)=>{ e.stopPropagation(); openLightbox(img.src, imgData(m).mode==="keep"? 0 : 8, m); };
 }
@@ -1878,23 +1940,10 @@ function wireScreenshotGuard(){
 }
 
 /* ================================================================
-   REACTIONS · REPLIES · SWIPE · MESSAGE MENU
-   PC: hover a message for the ⋯ button · right-click or double-click
-   (❤️) anywhere on it.  Mobile: swipe a message right to reply.
+   REPLIES · SWIPE · MESSAGE MENU
+   PC: hover a message for the ⋯ button, or right-click it.
+   Mobile: swipe a message right to reply.
 ================================================================ */
-const QUICK_REACT=["❤️","👍","😂","😮","😢","🔥"];
-async function toggleReaction(m, emo){
-  if(!m) return;
-  const r=Object.assign({}, reactionsOf(m));
-  const arr=(r[emo]||[]).slice();
-  const i=arr.indexOf(S.senderId);
-  if(i>=0) arr.splice(i,1); else arr.push(S.senderId);
-  if(arr.length) r[emo]=arr; else delete r[emo];
-  m.reactions=r;
-  renderRowById(m.id);
-  try{ await dbClient().from("messages").update({reactions:r}).eq("id",m.id); }
-  catch(e){ toast("Couldn't save reaction","Check the connection and try again.",{kind:"err",icon:"alert",color:"var(--rose-soft)"}); }
-}
 
 /* ---------- reply ---------- */
 function setReply(m){
@@ -1919,27 +1968,19 @@ function jumpTo(id){
 
 /* ---------- message action menu ---------- */
 function openMsgMenu(m,x,y){
-  closeEmojiPanel();
   const menu=$("#msg-menu");
   menu.innerHTML=
-    '<div class="mm-quick">'+QUICK_REACT.map(e=>'<button data-q="'+e+'" title="react">'+e+'</button>').join("")+
-      '<button data-more="1" title="more emoji">＋</button></div>'+
     '<button class="mm-item" data-act="reply"><svg class="ic"><use href="#i-reply"/></svg> Reply</button>'+
-    '<button class="mm-item" data-act="react"><svg class="ic"><use href="#i-smile"/></svg> React…</button>'+
     '<button class="mm-item" data-act="copy"><svg class="ic"><use href="#i-copy"/></svg> Copy text</button>'+
     (m.type==="image"? '<button class="mm-item" data-act="save"><svg class="ic"><use href="#i-download"/></svg> Open photo</button>':"");
   menu.classList.remove("hidden");
   const w=menu.offsetWidth||224, h=menu.offsetHeight||250;
   menu.style.left=Math.max(8,Math.min(x, window.innerWidth-w-8))+"px";
   menu.style.top=Math.max(8,Math.min(y, window.innerHeight-h-8))+"px";
-  menu.querySelectorAll("[data-q]").forEach(b=>{ b.onclick=(e)=>{ e.stopPropagation(); closeMsgMenu(); toggleReaction(m,b.dataset.q); }; });
-  const more=menu.querySelector("[data-more]");
-  if(more) more.onclick=(e)=>{ e.stopPropagation(); const r=menu.getBoundingClientRect(); closeMsgMenu(); openEmojiPanel(em=>toggleReaction(m,em), r.left, r.top); };
   menu.querySelectorAll(".mm-item").forEach(b=>{ b.onclick=(e)=>{
     e.stopPropagation(); closeMsgMenu();
     const a=b.dataset.act;
     if(a==="reply"){ setReply(m); const i=$("#in-msg"); if(i) i.focus(); }
-    else if(a==="react"){ openEmojiPanel(em=>toggleReaction(m,em)); }
     else if(a==="copy"){
       const txt=m.type==="image"? "[photo]" : String(m.content||"");
       copyText(txt);
@@ -1950,62 +1991,6 @@ function openMsgMenu(m,x,y){
 }
 function closeMsgMenu(){ const me=$("#msg-menu"); if(me) me.classList.add("hidden"); }
 
-/* ---------- emoji panel (composer + reactions) ---------- */
-let epOnPick=null, epCat="recent", epQ="";
-function epRecents(){ const a=LS.get("chat_emojis",[]); return Array.isArray(a)?a:[]; }
-function epPushRecent(e){ const a=epRecents().filter(x=>x!==e); a.unshift(e); LS.set("chat_emojis",a.slice(0,24)); }
-function searchEmoji(q){
-  q=String(q||"").toLowerCase();
-  if(EMOJI_KW[q]) return EMOJI_KW[q].slice();
-  const hits=[];
-  EMOJI_CATS.forEach(c=>{
-    if(c.name.toLowerCase().indexOf(q)>=0) hits.push.apply(hits, c.list.slice(0,32));
-  });
-  Object.keys(EMOJI_KW).forEach(k=>{ if(k.indexOf(q)===0) hits.push.apply(hits, EMOJI_KW[k]); });
-  return hits.filter((v,i,a)=>a.indexOf(v)===i);
-}
-function openEmojiPanel(onPick){
-  epOnPick=onPick||null;
-  const pop=$("#emoji-pop");
-  pop.classList.remove("hidden");
-  if(epCat==="recent" && !epRecents().length) epCat="smile";
-  const s=$("#ep-search"); s.value=""; epQ="";
-  renderEmojiPanel();
-  if(!("ontouchstart" in window)) setTimeout(()=>s.focus(),10);
-}
-function closeEmojiPanel(){ const p=$("#emoji-pop"); if(p) p.classList.add("hidden"); epOnPick=null; }
-function renderEmojiPanel(){
-  const tabs=$("#ep-tabs"), grid=$("#ep-grid");
-  tabs.innerHTML="";
-  EMOJI_CATS.forEach(c=>{
-    if(c.id==="recent" && !epRecents().length) return;
-    const b=document.createElement("button");
-    b.className="ep-tab"+(c.id===epCat?" active":"");
-    b.textContent=c.icon; b.title=c.name;
-    b.onclick=()=>{ epCat=c.id; renderEmojiPanel(); };
-    tabs.appendChild(b);
-  });
-  let list=[];
-  if(epQ) list=searchEmoji(epQ);
-  else {
-    const c=EMOJI_CATS.find(x=>x.id===epCat)||EMOJI_CATS[1];
-    list=(c.id==="recent")? epRecents() : c.list;
-  }
-  grid.innerHTML="";
-  if(!list.length){ grid.innerHTML='<div class="ep-empty">no emoji found</div>'; return; }
-  list.forEach(e=>{
-    const b=document.createElement("button");
-    b.textContent=e;
-    b.onclick=(ev)=>{
-      ev.stopPropagation();
-      epPushRecent(e);
-      const fn=epOnPick;
-      closeEmojiPanel();
-      if(fn) fn(e);
-    };
-    grid.appendChild(b);
-  });
-}
 
 /* ---------- photos: one-view / two-view ---------- */
 async function revealPhoto(m){
@@ -2102,7 +2087,7 @@ function wireInteractions(){
     if(me && !me.classList.contains("hidden") && !me.contains(e.target)) closeMsgMenu();
   });
   msgsEl().addEventListener("scroll",()=>{ closeMsgMenu(); },{passive:true});
-  window.addEventListener("resize",()=>{ closeMsgMenu(); closeEmojiPanel(); });
+  window.addEventListener("resize",()=>{ closeMsgMenu(); });
 }
 
 /* ================================================================
@@ -2366,9 +2351,8 @@ function wireBus(bus){
     if(i>=0){
       const prev=S.messages[i];
       S.messages[i]=row;
-      const changed = (prev.content!==row.content) ||
-        (JSON.stringify(reactionsOf(prev))!==JSON.stringify(reactionsOf(row)));
-      if(changed) renderRowById(row.id);
+      /* content changes = a view-once photo was opened */
+      if(prev.content!==row.content) renderRowById(row.id);
       updateTicks(row.id);
     }
   };
@@ -2420,6 +2404,7 @@ function handleIncoming(m){
     byMine: m.sender_id===S.senderId, at: m.created_at,
     unread: (m.sender_id!==S.senderId && !reading)? ((cached?cached.unread:0)||0)+1 : (cached?cached.unread:0)||0
   });
+  updateUnreadBadge();
   if(!isMine(m)){
     peerTyping(m.sender_id,false);
     sndRecv();
@@ -2480,6 +2465,7 @@ async function flushMarkRead(){
     try{ await S.bus.markRead(m.id, mine, m.read_by.filter(x=>x!==mine)); }catch(e){/* ignore */}
   }
   updateRecent(S.room,S.name,{lastReadAt:new Date().toISOString(),unread:0});
+  updateUnreadBadge();
 }
 /* ---------- typing out ---------- */
 function sendTyping(on){
@@ -2542,6 +2528,7 @@ function startChat(name, room, isNew){
   $("#room-pill").classList.remove("online");
   $('#online-txt').textContent=S.otherName? ("· waiting for "+displayName(S.otherName)+"…") : "· just you for now…";
   msgsEl().innerHTML=""; S.lastRenderedDate=""; setReply(null); updateOwnerBadge();
+  if(S.account && S.account.uid) enforceRoomSeat(room);
   renderEmpty();
   connect();
   setTimeout(()=>{ const i=$("#in-msg"); i && i.focus(); },100);
@@ -2561,14 +2548,14 @@ function leaveRoom(){
   try{ S.bus && S.bus.destroy(); }catch(e){}
   S.bus=null; S.supa=null;
   clearUnread(); hideError();
-  closeNickModal(); closeSettings();
-  if(!$("#emoji-pop").classList.contains("hidden")) $("#emoji-pop").classList.add("hidden");
+  closeNickModal(); closeSettings(); closeMsgMenu();
   S.name=""; S.room=""; S.senderId=""; S.messages=[]; S.nicks={};
   ORIG_TITLE="Chat"; document.title="Chat";
   $("#chat-screen").classList.add("hidden");
   $("#welcome-screen").classList.remove("hidden");
   showRecents();
   refreshRecents();
+  updateUnreadBadge();
 }
 
 function requestPassword(room){
@@ -2633,7 +2620,18 @@ function wireWelcome(){
   $("#btn-create").onclick=async()=>{
     const acc=requireAccount(); if(!acc) return;
     const pw=$("#w-create-pass").value;
-    const room=genRoom();
+    let room="";
+    const custom=slugRoom($("#w-room-new").value);
+    if(custom){
+      if(custom.length<3){ err.textContent="room names need at least 3 letters or numbers"; return; }
+      err.textContent="checking that name…";
+      const row=await getRoomRow(custom).catch(()=>null);
+      if(row && row.created_by && row.created_by!==acc.uid){
+        err.textContent="“"+custom+"” is already taken by someone else — pick another name";
+        return;
+      }
+      room=custom;
+    } else room=genRoom();
     err.textContent="setting up…";
     try{
       const h=pw? await hashPw(room,pw) : null;
@@ -2650,6 +2648,7 @@ function wireWelcome(){
     S.otherName=null;
     err.textContent="";
     $("#w-create-pass").value="";
+    $("#w-room-new").value="";
     startChat(acc.username, room, true);
   };
   $("#btn-join").onclick=async()=>{
@@ -2692,6 +2691,7 @@ function wireWelcome(){
   $("#w-room").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#btn-join").click(); });
   $("#w-pass").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#btn-join").click(); });
   $("#w-create-pass").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#btn-create").click(); });
+  $("#w-room-new").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#btn-create").click(); });
 }
 
 /* ================================================================
@@ -2709,23 +2709,6 @@ function wireComposer(){
     S.typingIdle=setTimeout(()=>sendTyping(false),2500);
   });
   inp.addEventListener("blur",()=>sendTyping(false));
-
-  const pop=$("#emoji-pop");
-  $("#btn-emoji").onclick=(e)=>{
-    e.stopPropagation();
-    if(!pop.classList.contains("hidden")){ closeEmojiPanel(); return; }
-    openEmojiPanel(em=>{ inp.value+=em; inp.focus(); sendTyping(true); });
-  };
-  $("#ep-search").addEventListener("input",e=>{ epQ=e.target.value.trim().toLowerCase(); renderEmojiPanel(); });
-  $("#ep-search").addEventListener("keydown",e=>{
-    if(e.key==="Enter"){ e.preventDefault(); const f=pop.querySelector(".ep-grid button"); if(f) f.click(); }
-  });
-  document.addEventListener("click",(e)=>{
-    if(pop.classList.contains("hidden")) return;
-    if(pop.contains(e.target)) return;
-    if(e.target && e.target.closest && (e.target.closest("#btn-emoji") || e.target.closest("#msg-menu"))) return;
-    closeEmojiPanel();
-  });
 
   $("#btn-img").onclick=()=>$("#file-img").click();
   $("#file-img").addEventListener("change",(e)=>{
@@ -2767,7 +2750,7 @@ function wireHeader(){
   $("#btn-settings").onclick=openSettings;
   $("#btn-settings-close").onclick=closeSettings;
   $("#settings-modal").addEventListener("click",e=>{ if(e.target.id==="settings-modal") closeSettings(); });
-  document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeNickModal(); closeSettings(); closeMsgMenu(); closeEmojiPanel(); closeLightbox(); } });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeNickModal(); closeSettings(); closeMsgMenu(); closeLightbox(); } });
 
   $("#btn-export").onclick=()=>{
     if(!S.messages.length){ toast("Nothing yet","No messages to export.",{kind:"sys",icon:"download",color:"var(--sage-soft)"}); return; }
@@ -2820,6 +2803,8 @@ function wireSettings(){
   $("#set-sound").onchange=e=>{ S.sound=e.target.checked; LS.set("chat_sound",S.sound); if(S.sound) sndSend(); };
   $("#set-dark").onchange=e=>applyTheme(e.target.checked);
   $("#set-shield").onchange=e=>{ LS.set("chat_shield",e.target.checked); if(e.target.checked) toast("Shield on ♡","Screenshots, print and photo-saving are blocked as far as a browser allows.",{kind:"sys",icon:"eye",color:"var(--sage-soft)"}); };
+  $("#btn-push-test").onclick=()=>sendTestPush();
+  $("#btn-push-fix").onclick=()=>repairPush();
   $("#btn-signout").onclick=()=>signOut();
   $("#btn-install").onclick=installApp;
 }
@@ -2859,6 +2844,5 @@ setInterval(()=>{ if(!$("#chat-screen").classList.contains("hidden")) renderSeen
   if(sess && sess.username && sess.uid) enterAccount(sess);
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4719f8b1a9e9313',t:'MTc5MTQyNTU3Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","spa":2}' crossorigin="anonymous"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a471d8261fbf3307',t:'MTc5MTQyNzg5Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
