@@ -544,7 +544,7 @@ html[data-theme="dark"] .owner-badge,html[data-theme="dark"] .rt-own{color:#a9c6
           <div class="hint" style="margin-bottom:14px">A private room for you two — you'll get a code + invite link to share.</div>
           <div class="field">
             <label>Room name <span style="color:var(--muted);font-weight:500">(optional — pick your own)</span></label>
-            <input type="text" id="w-room-new" maxlength="24" placeholder="e.g. us-forever (blank = random code)" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <input type="text" id="w-room-new" maxlength="24" placeholder="leave blank for a random code" autocomplete="off" autocapitalize="off" spellcheck="false">
           </div>
           <div class="field">
             <label>Room password <span style="color:var(--muted);font-weight:500">(optional — locks the room)</span></label>
@@ -2844,5 +2844,5 @@ setInterval(()=>{ if(!$("#chat-screen").classList.contains("hidden")) renderSeen
   if(sess && sess.username && sess.uid) enterAccount(sess);
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a47277950dc93307',t:'MTc5MTQzNDQyMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
